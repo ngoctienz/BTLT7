@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="Styles/Styles.css">
+    <script src="Scripts/jquery-3.7.1.js"></script>
+    <script src="Scripts/Scripts.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div>
+        <button id="jsstyle">Show Image</button>
+    </div>
+    <script>
+        var imageList = [
+            { scr: "http://farm4.staticflickr.com/3691/11268502654_f28f05966c_m.jpg", width: 240, height: 160 },
+            { scr: "http://farm1.staticflickr.com/33/45336904_1aef569b30_n.jpg", width: 320, height: 195 },
+            { scr: "http://farm6.staticflickr.com/5211/5384592886_80a512e2c9.jpg", width: 500, height: 343 },
+        ];
+
+        $(document).ready(function () {
+            $("#jsstyle").click(function () {
+                var imgRandom = imageList[Math.floor(Math.random() * imageList.length)];
+                displayImage(imgRandom.scr, imgRandom.width, imgRandom.height);
+            });
+            function displayImage(src, width, height) {
+                $("div").next("img").remove();
+                var img = $("<img>").attr({ src: src, width: width, height: height });
+                $("div").after(img);
+            }
+
+
+        });
+    </script>
+
+</body>
+
+</html>

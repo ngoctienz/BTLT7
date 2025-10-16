@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Thêm và xóa hàng trong Table </title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+  <link rel="stylesheet" href="Styles/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+</head>
+
+<body style="border:1px solid grey">
+  <h2>Quản lý thông tin user</h2>
+  <form>
+    <input type="text" id="name" placeholder="Name">
+    <input type="text" id="email" placeholder="Email Address">
+    <input type="text" placeholder="Birthdate" id="datepicker">
+    <input type="button" class="add-row" value="Add Row">
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th>Select</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Birthdate</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+  <button type="button" class="delete-row">Delete Row</button>
+
+  <script>
+    $(document).ready(function () {
+      $(".add-row").click(function () {
+        var name = $("#name").val().trim();
+        var email = $("#email").val().trim();
+
+        if (email === "") {
+          alert("Chưa nhập email.");
+          event.preventDefault();
+          return;
+        } else {
+          var zEmail = email.split("@");
+          if (zEmail.length !== 2 || zEmail[0] === "" || zEmail[1] === "") {
+            alert("Email không hợp lệ.");
+            event.preventDefault();
+            return;
+          }
+          var zAccount = zEmail[0].split("");
+          var dotAccount = 0;
+          for (var i = 0; i < zAccount.length; i++) {
+            if (zAccount[i] === ".") {
+              dotAccount++;
+            }
+          }
+          if (dotAccount > 1) {
+            alert("Email không hợp lệ.");
+            event.preventDefault();
+            return;
+          }
+
+          var zDomain = zEmail[1].split("");
+          var dotDomain = 0;
+          for (var i = 0; i < zDomain.length; i++) {
+            if (zDomain[i] === ".") {
+              dotDomain++;
+            }
+          }
+          if (dotDomain < 1) {
+            alert("Email không hợp lệ.");
+            event.preventDefault();
+            return;
+          }
+        }
+        var birthDay = $("#datepicker").val();
+        if (birthDay === "") {
+          alert("Chưa nhập ngày sinh.");
+          event.preventDefault();
+          return;
+        } else {
+          var zbirthDay = birthDay.split(/[-\/]/);
+          if (zbirthDay.length !== 3) {
+            alert("Ngày sinh không hợp lệ.");
+            event.preventDefault();
+            return;
+          } else if (parseInt(zbirthDay[0]) < 1 || parseInt(zbirthDay[0]) > 31) {
+            alert("Ngày không hợp lệ.");
+            event.preventDefault();
+            return;
+          } else if (parseInt(zbirthDay[1]) < 1 || parseInt(zbirthDay[1]) > 12) {
+            alert("Tháng không hợp lệ.");
+            event.preventDefault();
+            return;
+          } else if (parseInt(zbirthDay[2]) > 2025) {
+            alert("Năm không hợp lệ.");
+            event.preventDefault();
+            return;
+          }
+        }
+
+        if (name && email && birthDay) {
+          $("table tbody").append(
+            "<tr><td><input type='checkbox' class='row-select'></td><td>" + name + "</td><td>" + email + "</td><td>" + birthDay + "</td></tr>"
+          );
+          $("#name").val("");
+          $("#email").val("");
+          $("#datepicker").val("");
+        } else {
+          alert("Nhập thiếu thông tin");
+        }
+      });
+
+      $(".delete-row").click(function () {
+        $("table tbody tr").has(".row-select:checked").remove();
+      });
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

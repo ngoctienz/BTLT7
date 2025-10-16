@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="Styles/Styles.css">
+    <script src="Scripts/jquery-3.7.1.js"></script>
+    <script src="Scripts/Scripts.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <form action="PSNIFMS">
+        <h1>Personal Information</h1>
+        <table>
+            <tr>
+                <td class="left"><label for="entername">Enter Name*:</label></td>
+                <td><input type="text" id="entername" name="entername"></td>
+            </tr>
+            <tr>
+                <td class="left"><label for="sex">Sex*:</label></td>
+                <td>
+                    <input type="radio" id="male" name="sex" value="male"><label for="male">Male</label>
+
+                    <input type="radio" id="female" name="sex" value="female"><label for="female">Female</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="left"><label for="email">Email address*:</label></td>
+                <td><input type="email" id="email" name="email"></td>
+            </tr>
+            <tr>
+                <td class="left"><label for="birthDay">Enter Birth Day(MM/DD/YYYY)*:</label></td>
+                <td><input type="text" id="birthDay" name="birthDay" placeholder="MM/DD/YYYY"></td>
+            </tr>
+            <tr>
+                <td class="left"><label for="streetAddress">Enter Street Address*:</label></td>
+                <td><input type="text" id="streetAddress" name="streetAddress"></td>
+
+            </tr>
+            <tr>
+                <td class="left"><label for="city">Enter City*:</label></td>
+                <td><input type="text" id="city" name="city"></td>
+            </tr>
+
+
+            <tr>
+                <td class="left"><label for="region">Select a Region*:</label></td>
+                <td>
+                    <select id="region" name="region">
+                        <option value="vietnam">Việt Nam</option>
+                        <option value="usa">USA</option>
+                        <option value="japan">Japan</option>
+                        <option value="korea">Korea</option>
+                        <option value="china">China</option>
+                        <option value="other">Other</option>
+                    </select>
+                </td>
+
+            <tr>
+                <td class="left"><label for="zipCode">Enter 5-digit Zip Code*:</label></td>
+                <td><input type="text" id="zipCode" name="zipCode" required></td>
+            </tr>
+
+            <tr>
+                <td class="left"><button name="finish" class="finish">Finish</button></td>
+                <td><button name="clear" class="clear" type="reset">Clear</button></td>
+            </tr>
+
+
+            <script>
+                $(document).ready(function () {
+                    $(".clear").click(function () {
+                        $("input[type=text], input[type=email]").val("");
+                        $("input[type=radio]").prop("checked", false);
+                        $("select").prop("selectedIndex", 0);
+                    });
+
+                    $(".finish").click(function (event) {
+                        var name = $("#entername").val().trim();
+                        if (name === "") {
+                            alert("Chưa nhập tên.");
+                            event.preventDefault();
+                            return;
+                        }
+                        var sex = $("input[name='sex']:checked").val();
+                        if (!sex) {
+                            alert("Chưa nhập giới tính.");
+                            event.preventDefault();
+                            return;
+                        }
+                        var email = $("#email").val().trim();
+
+                        if (email === "") {
+                            alert("Chưa nhập email.");
+                            event.preventDefault();
+                            return;
+                        } else {
+                            var zEmail = email.split("@");
+                            if (zEmail.length !== 2 || zEmail[0] === "" || zEmail[1] === "") {
+                                alert("Email không hợp lệ.");
+                                event.preventDefault();
+                                return;
+                            }
+                            var zAccount = zEmail[0].split("");
+                            var dotAccount = 0;
+                            for (var i = 0; i < zAccount.length; i++) {
+                                if (zAccount[i] === ".") {
+                                    dotAccount++;
+                                }
+                            }
+                            if (dotAccount > 1) {
+                                alert("Email không hợp lệ.");
+                                event.preventDefault();
+                                return;
+                            }
+
+                            var zDomain = zEmail[1].split("");
+                            var dotDomain = 0;
+                            for (var i = 0; i < zDomain.length; i++) {
+                                if (zDomain[i] === ".") {
+                                    dotDomain++;
+                                }
+                            }
+                            if (dotDomain < 1) {
+                                alert("Email không hợp lệ.");
+                                event.preventDefault();
+                                return;
+                            }
+                        }
+
+                        var birthDay = $("#birthDay").val().trim();
+                        if (birthDay === "") {
+                            alert("Chưa nhập ngày sinh.");
+                            event.preventDefault();
+                            return;
+                        } else {
+                            var zbirthDay = birthDay.split(/[-\/]/);
+                            if (zbirthDay.length !== 3) {
+                                alert("Ngày sinh không hợp lệ.");
+                                event.preventDefault();
+                                return;
+                            } else if (parseInt(zbirthDay[0]) < 1 || parseInt(zbirthDay[0]) > 12) {
+                                alert("Tháng không hợp lệ.");
+                                event.preventDefault();
+                                return;
+                            } else if (parseInt(zbirthDay[1]) < 1 || parseInt(zbirthDay[1]) > 31) {
+                                alert("Ngày không hợp lệ.");
+                                event.preventDefault();
+                                return;
+                            } else if (parseInt(zbirthDay[2]) > 2025) {
+                                alert("Năm không hợp lệ.");
+                                event.preventDefault();
+                                return;
+                            }
+                        }
+                        var streetAddress = $("#streetAddress").val().trim();
+                        if (streetAddress === "") {
+                            alert("Chưa nhập địa chỉ.");
+                            event.preventDefault();
+                            return;
+                        }
+                        var city = $("#city").val().trim();
+                        if (city === "") {
+                            alert("Chưa nhập thành phố.");
+                            event.preventDefault();
+                            return;
+                        }
+                        var region = $("#region").val();
+                        if (region === "") {
+                            alert("Chưa chọn khu vực.");
+                            event.preventDefault();
+                            return;
+                        }
+                        var zipCode = $("#zipCode").val().trim();
+                        var code = zipCode.split("");
+                        if (zipCode === "") {
+                            alert("Zip code không được để trống.");
+                            event.preventDefault();
+                            return;
+                        } else if (code.length !== 5) {
+                            alert("Zip code phải đúng 5 số.");
+                            event.preventDefault();
+                            return;
+                        } else {
+                            for (var i = 0; i < code.length; i++) {
+                                if (parseInt(code[i]) < 0 || parseInt(code[i]) > 9) {
+                                    alert("Zip code phải là số.");
+                                    event.preventDefault();
+                                    return;
+                                } else {
+                                    alert("Đăng ký thành công!");
+                                    return;
+                                }
+                            }
+                        }
+                    });
+
+
+                });
+            </script>
+
+
+
+        </table>
+
+
+    </form>
+
+
+</body>
+
+</html>
