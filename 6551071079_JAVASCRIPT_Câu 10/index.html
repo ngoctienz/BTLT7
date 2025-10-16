@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="Styles/Styles.css">
+    <script src="Scripts/jquery-3.7.1.js"></script>
+    <script src="Scripts/Scripts.js" type="text/javascript"></script>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td colspan="4">
+        <input type="text" class="ManHinh" id="ManHinh">
+        </td>
+    </tr>
+    <tr>
+    <td><button class="btn" id="number1">1</button></td>
+    <td><button class="btn" id="number2">2</button></td>
+    <td><button class="btn" id="number3">3</button></td>
+    <td><button class="btn" id="operatorPlus">+</button></td>
+</tr>
+<tr>
+    <td><button class="btn" id="number4">4</button></td>
+    <td><button class="btn" id="number5">5</button></td>
+    <td><button class="btn" id="number6">6</button></td>
+    <td><button class="btn" id="operatorMinus">-</button></td>
+</tr>
+<tr>
+    <td><button class="btn" id="number7">7</button></td>
+    <td><button class="btn" id="number8">8</button></td>
+    <td><button class="btn" id="number9">9</button></td>
+    <td><button class="btn" id="operatorMultiply">x</button></td>
+</tr>
+<tr>
+    <td><button class="btn" id="clear">C</button></td>
+    <td><button class="btn" id="number0">0</button></td>
+    <td><button class="btn" id="equals">=</button></td>
+    <td><button class="btn" id="operatorDivide">/</button></td>
+</tr>
+
+</table>
+
+<script>
+$(document).ready(function () {
+    let input = "";
+    let ManHinh = $("#ManHinh");
+
+    ManHinh.on("input", function () {
+        input = $(this).val();
+    });
+
+    $(".btn").click(function () {
+        let value = $(this).text();
+
+        if (value === "C") {
+            input = "";
+            ManHinh.val("");
+            return;
+        }
+
+        if (value === "=") {
+            tinhKetQua();
+            return;
+        }
+        input += value;
+        ManHinh.val(input);
+    });
+
+    ManHinh.keypress(function (e) {
+        if (e.which === 13) {
+            tinhKetQua();
+        }
+    });
+
+    function tinhKetQua() {
+        try {
+            let bieuThuc = input.replace(/x/g, "*");
+            let ketQua = eval(bieuThuc);
+            ManHinh.val(ketQua);
+            input = ketQua.toString();
+        } catch (e) {
+            ManHinh.val("Lỗi");
+            input = "";
+        }
+    }
+});
+</script>
+
+</script>
+</body>
+</html>
